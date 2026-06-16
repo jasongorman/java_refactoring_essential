@@ -3,6 +3,9 @@ package com.codemanship.refactoring.duplication;
 class Forecast {
 
     private final String period; // "morning", "afternoon", "evening", "night"
+    private enum period {
+        MORNING, AFTERNOON, EVENING, NIGHT
+    }
     private final double temperature;
     private final String condition;
     private final int windSpeed;
