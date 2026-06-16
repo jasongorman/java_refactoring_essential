@@ -75,22 +75,22 @@ class CustomerServiceTest {
 
     @Test
     void calculateLoyaltyPoints_shouldReturnZero_whenNoPurchases() {
-        assertEquals(0, service.calculateLoyaltyPoints(0));
+        assertEquals(0, LoyaltyService.calculateLoyaltyPoints(0));
     }
 
     @Test
     void calculateLoyaltyPoints_shouldCalculateCorrectly_forPositiveValues() {
-        assertEquals(50, service.calculateLoyaltyPoints(5));
+        assertEquals(50, LoyaltyService.calculateLoyaltyPoints(5));
     }
 
     @Test
     void calculateLoyaltyPoints_shouldHandleLargeNumbers() {
-        assertEquals(100_000, service.calculateLoyaltyPoints(10_000));
+        assertEquals(100_000, LoyaltyService.calculateLoyaltyPoints(10_000));
     }
 
     @Test
     void calculateLoyaltyPoints_shouldAllowNegativeValues_butStillMultiply() {
-        assertEquals(-50, service.calculateLoyaltyPoints(-5));
+        assertEquals(-50, LoyaltyService.calculateLoyaltyPoints(-5));
     }
 
     // -------------------------
@@ -99,22 +99,22 @@ class CustomerServiceTest {
 
     @Test
     void determineAccountStatus_shouldReturnInactive_whenDaysOver365() {
-        assertEquals("INACTIVE", service.determineAccountStatus(366));
+        assertEquals("INACTIVE", AccountStatusService.determineAccountStatus(366));
     }
 
     @Test
     void determineAccountStatus_shouldReturnDormant_whenBetween31And365() {
-        assertEquals("DORMANT", service.determineAccountStatus(100));
+        assertEquals("DORMANT", AccountStatusService.determineAccountStatus(100));
     }
 
     @Test
     void determineAccountStatus_shouldReturnActive_when30DaysOrLess() {
-        assertEquals("ACTIVE", service.determineAccountStatus(30));
-        assertEquals("ACTIVE", service.determineAccountStatus(0));
+        assertEquals("ACTIVE", AccountStatusService.determineAccountStatus(30));
+        assertEquals("ACTIVE", AccountStatusService.determineAccountStatus(0));
     }
 
     @Test
     void determineAccountStatus_shouldTreatNegativeDaysAsActive() {
-        assertEquals("ACTIVE", service.determineAccountStatus(-10));
+        assertEquals("ACTIVE", AccountStatusService.determineAccountStatus(-10));
     }
 }
