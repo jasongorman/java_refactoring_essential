@@ -1,37 +1,19 @@
 package com.codemanship.refactoring.legacycode;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import java.io.IOException;
 
 public class ShippingCalculator {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-    private final HttpClient httpClient = HttpClient.newHttpClient();
+    private final FetchOrder fetchOrder;
+
+    public ShippingCalculator(FetchOrder fetchOrder) {
+        this.fetchOrder = fetchOrder;
+    }
 
     public double calculateShipping(int orderId) {
 
         try {
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(
-                            "https://codemanship.co.uk/api/orders.php?orderId=" + orderId
-                    ))
-                    .GET()
-                    .build();
-
-            HttpResponse<String> response =
-                    httpClient.send(
-                            request,
-                            HttpResponse.BodyHandlers.ofString()
-                    );
-
-            String json = response.body();
-
-            Order order =
-                    objectMapper.readValue(json, Order.class);
+            Order order = fetchOrder.fetchOrder(orderId);
 
             switch (order.getShippingType()) {
 
@@ -56,5 +38,10 @@ public class ShippingCalculator {
             System.out.println(e);
             return -1;
         }
+    }
+
+    private Order fetchOrder(int orderId) throws IOException, InterruptedException {
+
+        return fetchOrder.fetchOrder(orderId);
     }
 }
