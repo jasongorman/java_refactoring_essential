@@ -14,37 +14,37 @@ class CustomerServiceTest {
 
     @Test
     void isValidEmail_shouldReturnFalse_whenEmailIsNull() {
-        assertFalse(service.isValidEmail(null));
+        assertFalse(EmailValidator.isValidEmail(null));
     }
 
     @Test
     void isValidEmail_shouldReturnFalse_whenEmailIsEmpty() {
-        assertFalse(service.isValidEmail(""));
+        assertFalse(EmailValidator.isValidEmail(""));
     }
 
     @Test
     void isValidEmail_shouldReturnFalse_whenMissingAtSymbol() {
-        assertFalse(service.isValidEmail("invalid.email.com"));
+        assertFalse(EmailValidator.isValidEmail("invalid.email.com"));
     }
 
     @Test
     void isValidEmail_shouldReturnFalse_whenMissingLocalPart() {
-        assertFalse(service.isValidEmail("@domain.com"));
+        assertFalse(EmailValidator.isValidEmail("@domain.com"));
     }
 
     @Test
     void isValidEmail_shouldReturnFalse_whenMissingDomain() {
-        assertFalse(service.isValidEmail("user@"));
+        assertFalse(EmailValidator.isValidEmail("user@"));
     }
 
     @Test
     void isValidEmail_shouldReturnTrue_whenEmailIsValid() {
-        assertTrue(service.isValidEmail("user.name+tag@example.com"));
+        assertTrue(EmailValidator.isValidEmail("user.name+tag@example.com"));
     }
 
     @Test
     void isValidEmail_shouldReturnTrue_whenSimpleValidEmail() {
-        assertTrue(service.isValidEmail("user@example.com"));
+        assertTrue(EmailValidator.isValidEmail("user@example.com"));
     }
 
     // -------------------------
@@ -53,19 +53,19 @@ class CustomerServiceTest {
 
     @Test
     void formatDisplayName_shouldTrimAndUppercaseLastName() {
-        String result = service.formatDisplayName(" John ", " smith ");
+        String result = CustomerDisplayFormat.formatDisplayName(" John ", " smith ");
         assertEquals("John SMITH", result);
     }
 
     @Test
     void formatDisplayName_shouldHandleEmptyStrings() {
-        String result = service.formatDisplayName("", "");
+        String result = CustomerDisplayFormat.formatDisplayName("", "");
         assertEquals(" ", result);
     }
 
     @Test
     void formatDisplayName_shouldHandleSingleCharacterNames() {
-        String result = service.formatDisplayName("A", "b");
+        String result = CustomerDisplayFormat.formatDisplayName("A", "b");
         assertEquals("A B", result);
     }
 
