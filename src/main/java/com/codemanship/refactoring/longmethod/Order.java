@@ -15,26 +15,13 @@ public class Order {
     public OrderSummary summarise() {
 
         // Validation
-        if (items == null) {
-            throw new IllegalStateException("Items cannot be null");
-        }
-        if (items.isEmpty()) {
-            throw new IllegalStateException("Order must contain items");
-        }
+        validateItems();
 
         // Subtotal calculation
-        double subtotal = 0.0;
-        for (OrderItem item : items) {
-            subtotal += item.getPrice() * item.getQuantity();
-        }
+        double subtotal = calculateSubtotal();
 
         // Discount rules
-        double discount = 0.0;
-        if (customer.isLoyal()) {
-            discount = subtotal * 0.10;
-        } else if (subtotal > 100) {
-            discount = subtotal * 0.05;
-        }
+        double discount = calculateDiscount(subtotal);
 
         // Tax calculation
         double taxableAmount = subtotal - discount;
@@ -44,5 +31,32 @@ public class Order {
         double total = taxableAmount + tax;
 
         return new OrderSummary(subtotal, discount, tax, total);
+    }
+
+    private double calculateDiscount(double subtotal) {
+        double discount = 0.0;
+        if (customer.isLoyal()) {
+            discount = subtotal * 0.10;
+        } else if (subtotal > 100) {
+            discount = subtotal * 0.05;
+        }
+        return discount;
+    }
+
+    private double calculateSubtotal() {
+        double subtotal = 0.0;
+        for (OrderItem item : items) {
+            subtotal += item.getPrice() * item.getQuantity();
+        }
+        return subtotal;
+    }
+
+    private void validateItems() {
+        if (items == null) {
+            throw new IllegalStateException("Items cannot be null");
+        }
+        if (items.isEmpty()) {
+            throw new IllegalStateException("Order must contain items");
+        }
     }
 }
