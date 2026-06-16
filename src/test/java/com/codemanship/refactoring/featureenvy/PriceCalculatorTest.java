@@ -12,7 +12,7 @@ class PriceCalculatorTest {
     void shouldApplyDiscountWhenProductIsOnSale() {
         Product product = new Product(100.0, true);
 
-        double result = calculator.calculateFinalPrice(product);
+        double result = product.calculateFinalPrice();
 
         assertEquals(80.0, result);
     }
@@ -21,7 +21,7 @@ class PriceCalculatorTest {
     void shouldNotApplyDiscountWhenProductIsNotOnSale() {
         Product product = new Product(100.0, false);
 
-        double result = calculator.calculateFinalPrice(product);
+        double result = product.calculateFinalPrice();
 
         assertEquals(100.0, result);
     }
@@ -30,7 +30,7 @@ class PriceCalculatorTest {
     void shouldReturnZeroWhenPriceIsZeroEvenIfOnSale() {
         Product product = new Product(0.0, true);
 
-        double result = calculator.calculateFinalPrice(product);
+        double result = product.calculateFinalPrice();
 
         assertEquals(0.0, result);
     }
