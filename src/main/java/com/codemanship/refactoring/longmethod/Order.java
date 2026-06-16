@@ -14,23 +14,26 @@ public class Order {
 
     public OrderSummary summarise() {
 
-        // Validation
         validateItems();
 
-        // Subtotal calculation
         double subtotal = calculateSubtotal();
 
-        // Discount rules
         double discount = calculateDiscount(subtotal);
 
-        // Tax calculation
         double taxableAmount = subtotal - discount;
-        double tax = taxableAmount * 0.20;
+        double tax = calculateTax(taxableAmount);
 
-        // Total calculation
-        double total = taxableAmount + tax;
+        double total = calculateTotal(taxableAmount, tax);
 
         return new OrderSummary(subtotal, discount, tax, total);
+    }
+
+    private static double calculateTotal(double taxableAmount, double tax) {
+        return taxableAmount + tax;
+    }
+
+    private static double calculateTax(double taxableAmount) {
+        return taxableAmount * 0.20;
     }
 
     private double calculateDiscount(double subtotal) {
